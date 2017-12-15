@@ -22,20 +22,18 @@ def get_trending_repositories(quantity):
 def get_repositories_info(repositories):
     repo_info = []
     for repo in repositories:
-        repo_owner = repo['owner']['login']
-        repo_name = repo['name']
-        repo_html_url = repo['html_url']
-        issues_quantity = len(
-            requests.get(
-                'https://api.github.com/repos/{}/{}/issues'.format(
-                    repo_owner,
-                    repo_name
-                )).json())
         repo_info.append({
-            'repo_name': repo_name,
-            'repo_owner': repo_owner,
-            'repo_issues_quantity': issues_quantity,
-            'repo_html_url': repo_html_url
+            'repo_owner' : repo['owner']['login'],
+            'repo_name' : repo['name'],
+            'repo_html_url' : repo['html_url'],
+            'repo_issues_quantity' : len(
+                requests.get(
+                    'https://api.github.com/repos/{}/{}/issues'.format(
+                        repo['owner']['login'],
+                        repo['name']
+                    )
+                ).json()
+            )
         })
     return repo_info
 
