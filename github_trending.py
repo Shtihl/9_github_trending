@@ -16,7 +16,7 @@ def get_trending_repositories(quantity):
     trending_repos = requests.get(
         url,
         params=search_params
-    ).json()['items']
+    ).json()['items'][:quantity]
     return trending_repos
 
 
@@ -30,17 +30,13 @@ def get_open_issues(repositories):
     return issues
 
 
-def print_repositories_info(repositories, issues):
-    for repo, issue in zip(repositories, issues):
-        print('Repo Owner: \t\t{}'.format(repo['owner']['login']))
-        print('Repo Name: \t\t{}'.format(repo['name']))
-        print('Open Issues Amount: \t{}'.format(len(issue)))
-        print('Repo Link: \t\t{}'.format(repo['html_url']))
-        print('-' * 80)
-
-
 if __name__ == '__main__':
     trending_repos_quantity = 20
     trending_repositories = get_trending_repositories(trending_repos_quantity)
     open_issues = get_open_issues(trending_repositories)
-    print_repositories_info(trending_repositories, open_issues)
+    for repo, issues in zip(trending_repositories, open_issues):
+        print('Repo Owner: \t\t{}'.format(repo['owner']['login']))
+        print('Repo Name: \t\t{}'.format(repo['name']))
+        print('Open Issues Amount: \t{}'.format(len(issues)))
+        print('Repo Link: \t\t{}'.format(repo['html_url']))
+        print('-' * 80)
