@@ -20,23 +20,19 @@ def get_trending_repositories(quantity):
     return trending_repos
 
 
-def get_open_issues(repositories):
-    issues = []
-    for repository in repositories:
-        url = 'https://api.github.com/repos/{}/issues'.format(
-            repository['full_name']
-        )
-        issues.append(requests.get(url).json())
-    return issues
+def get_issue_amount(repository):
+    url = 'https://api.github.com/repos/{}/issues'.format(
+        repository['full_name']
+    )
+    return len(requests.get(url).json())
 
 
 if __name__ == '__main__':
     trending_repos_quantity = 20
     trending_repositories = get_trending_repositories(trending_repos_quantity)
-    open_issues = get_open_issues(trending_repositories)
-    for repo, issues in zip(trending_repositories, open_issues):
+    for repo in trending_repositories:
         print('Repo Owner: \t\t{}'.format(repo['owner']['login']))
         print('Repo Name: \t\t{}'.format(repo['name']))
-        print('Open Issues Amount: \t{}'.format(len(issues)))
+        print('Open Issues Amount: \t{}'.format(get_issue_amount(repo)))
         print('Repo Link: \t\t{}'.format(repo['html_url']))
         print('-' * 80)
