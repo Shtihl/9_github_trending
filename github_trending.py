@@ -30,9 +30,10 @@ def get_issue_amount(repository):
 if __name__ == '__main__':
     trending_repos_quantity = 20
     trending_repositories = get_trending_repositories(trending_repos_quantity)
+    delimiter = '-' * 80
     for repo in trending_repositories:
         print('Repo Owner: \t\t{}'.format(repo['owner']['login']))
         print('Repo Name: \t\t{}'.format(repo['name']))
         print('Open Issues Amount: \t{}'.format(get_issue_amount(repo)))
         print('Repo Link: \t\t{}'.format(repo['html_url']))
-        print('-' * 80)
+        print(delimiter)
